@@ -11,7 +11,7 @@ Simplify complex multiplication and division with this Log and Antilog Calculato
 
 ## Live Demo
 
-Experience the Log and Antilog Calculator App [https://durubhuru14.github.io/Log-and-Antilog-App/](#).
+Experience the Log and Antilog Calculator App [here](https://durubhuru14.github.io/Log-and-Antilog-App/).
 
 ## Installation
 
@@ -19,7 +19,7 @@ To use the app locally:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/log-antilog-calculator.git
+   git clone https://github.com/Durubhuru14/log-antilog-calculator.git
 2. Navigate to the project directory:
    ```bash
    cd log-antilog-calculator
