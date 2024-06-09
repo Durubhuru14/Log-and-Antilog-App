@@ -11,7 +11,7 @@ Simplify complex multiplication and division with this Log and Antilog Calculato
 
 ## Live Demo
 
-Experience the Log and Antilog Calculator App [here](#).
+Experience the Log and Antilog Calculator App [https://durubhuru14.github.io/Log-and-Antilog-App/](#).
 
 ## Installation
 
