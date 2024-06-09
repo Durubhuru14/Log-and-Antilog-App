@@ -1,0 +1,186 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+header {
+  height: 12%;
+  margin-top: 6px;
+  text-align: center;
+  margin-bottom: 3%;
+}
+
+main {
+  border-radius: 6px;
+  padding: 9px;
+  box-shadow: 25px 25px 75px rgba(0, 0, 0, 0.75),
+    10px 10px 70px rgba(0, 0, 0, 0.25),
+    inset 5px 5px 10px rgba(0, 0, 0, 0.5),
+    inset 5px 5px 20px rgba(255, 255, 255, 0.2),
+    inset -5px -5px 15px rgba(0, 0, 0, 0.75);
+  background: #39414a;
+  margin-bottom: 3%;
+}
+
+body {
+  flex-flow: column;
+  background: #2f363e;
+  display: flex;
+  align-items: center;
+  color: #E8E8E8;
+}
+
+button {
+  margin-top: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid rgba(6, 220, 13);
+  color: #E8E8E8;
+  background: rgba(6, 220, 13, 0.404);
+}
+
+.resultBox {
+  width: 96%;
+  height: 30%;
+  border-radius: 6px;
+  padding-left: 5.5px;
+  box-shadow: 25px 25px 75px rgba(0, 0, 0, 0.75),
+    10px 10px 70px rgba(0, 0, 0, 0.25),
+    inset 5px 5px 10px rgba(0, 0, 0, 0.5),
+    inset 5px 5px 20px rgba(255, 255, 255, 0.2),
+    inset -5px -5px 15px rgba(0, 0, 0, 0.75);
+  background: #39414a;
+}
+
+#result-header {
+  position: relative;
+  font-size: 1.3em;
+  color: #e91e63;
+}
+
+.inputBox {
+  position: relative;
+  width: fit-content;
+  margin-top: 6px;
+}
+
+.inputBox input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: #1d2b3a;
+  border-radius: 5px;
+  outline: none;
+  color: #fff;
+  font-size: 1em;
+  transition: 0.5s;
+}
+
+.inputBox span {
+  position: absolute;
+  left: 0;
+  padding: 10px;
+  pointer-events: none;
+  font-size: 0.8em;
+  color: rgba(255, 255, 255, 0.25);
+  text-transform: uppercase;
+  transition: 0.5s;
+  user-select: none;
+}
+
+.inputBox input:valid~span,
+.inputBox input:focus~span {
+  color: #00dfc4;
+  transform: translateX(10px) translateY(-7px);
+  padding: 0 10px;
+  background: #1d2b3a;
+  border-left: 1px solid #00dfc4;
+  border-right: 1px solid #00dfc4;
+  letter-spacing: 0.2em;
+}
+
+.inputBox:nth-child(2) input:valid~span,
+.inputBox:nth-child(2) input:focus~span {
+  background: #00dfc4;
+  color: #1d2b3a;
+  border-radius: 2px;
+  font-size: 0.7em;
+}
+
+.inputBox input:valid,
+.inputBox input:focus {
+  border: 1px solid #00dfc4;
+  transition: 0.5s;
+}
+
+footer {
+  color: #868c96;
+  position: relative;
+  bottom: 0;
+}
+
+footer p {
+  padding: 40px 0;
+  text-align: center;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+footer img {
+  width: 150px;
+}
+
+.result {
+  font-size: 11pt;
+}
+
+/* Styling for final result */
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Roboto+Mono:ital@1&display=swap');
+.antilog-text {
+  color: #FF6188;
+  font-family: 'Lato', sans-serif;
+}
+.number {
+  font-family: 'Roboto Mono', monospace;
+  color: #378DC8;
+  font-style: italic;
+}
+
+.power {
+  font-family: 'Roboto Mono', monospace;
+  color: #FF9800;
+  font-style: italic;
+}
+
+.result-value {
+  font-family: 'Roboto Mono', monospace;
+  color: #c3e88d;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.curly-brac {
+  color: #c792ea;
+}
+
+.sqaure-brac {
+  display: inline;
+  color: #89ddff;
+}
+
+.round-brac {
+  display: inline;
+  color: #FFD866;
+}
+
+.log {
+  display: inline;
+  font-style: italic;
+  color: #80cbc4;
+  font-family: 'Lato', sans-serif;
+}
