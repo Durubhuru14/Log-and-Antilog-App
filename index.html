@@ -29,11 +29,14 @@
     <div class="result"></div>
   </div>
   <footer>
-    <p>Copyright &copy; 2023 <img src="logo.png" alt="logo"> All Rights Reserved.</p>
+    <p>Copyright &copy; <span id="currentYear"></span> <img src="logo.png" alt="logo"> All Rights Reserved.</p>
   </footer>
 </body>
 <script type="text/javascript" charset="utf-8" src="log and antilog.js">
+const currentYear = new Date().getFullYear();
 
+        // Display the current year
+        document.getElementById('currentYear').textContent = currentYear;
 </script>
 
 </html>
