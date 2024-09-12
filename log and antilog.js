@@ -1,3 +1,7 @@
+// When I wrote this, only God and I understood what I was doing
+// Now, God only knows
+// I ain't refactoring this pile of shit
+
 function decimalConverter(floatNum) {
   if (floatNum < 1) {
     if (floatNum < 1.000 && floatNum >= 0.1) {
