@@ -38,20 +38,16 @@ function simpleNumbersToBarForm(integer) {
 
 function formatManualLog(num) {
   const characteristic = getCharacteristic(num);
-  const converted = parseFloat(decimalConverter(num));
-  const mantissa = Math.log10(converted).toFixed(4).toString().split(".")[1];
+  const decimalConverted = parseFloat(decimalConverter(num));
+  const mantissa = Math.log10(decimalConverted).toFixed(4).toString().split(".")[1];
   return `${characteristic}.${mantissa}`;
 }
 
 function applyPowerToLog(logStr, power) {
   const [c, m] = logStr.split(".");
-  console.log(c, m);
   const mant = parseFloat(`0.${m}`) * power;
-  console.log(mant);
   const resultChar = parseInt(c) * power + Math.floor(mant);
-  console.log(resultChar);
   const resultMant = (mant % 1).toFixed(4).slice(2);
-  console.log(resultMant);
   return `${resultChar}.${resultMant}`;
 }
 
