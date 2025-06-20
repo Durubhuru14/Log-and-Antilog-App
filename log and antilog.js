@@ -1,21 +1,14 @@
 function decimalConverter(floatNum) {
   if (floatNum < 1) {
-    const multipliers = [10, 100, 1000, 10000];
-    for (let i = 0; i < multipliers.length; i++) {
-      if (
-        floatNum < 1 / Math.pow(10, i) &&
-        floatNum >= 1 / Math.pow(10, i + 1)
-      ) {
-        return (floatNum * multipliers[i]).toFixed(4);
-      }
-    }
-  } else if (floatNum > 1) {
-    const divisors = [1000, 100, 10, 1];
-    for (let i = 0; i < divisors.length; i++) {
-      if (floatNum < Math.pow(10, i + 1) && floatNum >= Math.pow(10, i)) {
-        return (floatNum / divisors[i]).toFixed(4);
-      }
-    }
+    if (floatNum >= 0.1) return (floatNum * 10).toFixed(4);
+    if (floatNum >= 0.01) return (floatNum * 100).toFixed(4);
+    if (floatNum >= 0.001) return (floatNum * 1000).toFixed(4);
+    if (floatNum >= 0.0001) return (floatNum * 10000).toFixed(4);
+  } else if (floatNum >= 1) {
+    if (floatNum < 10) return floatNum.toFixed(4);
+    if (floatNum < 100) return (floatNum / 10).toFixed(4);
+    if (floatNum < 1000) return (floatNum / 100).toFixed(4);
+    if (floatNum < 10000) return (floatNum / 1000).toFixed(4);
   }
   return floatNum.toFixed(4);
 }
@@ -28,106 +21,100 @@ function getCharacteristic(number) {
   return Math.floor(Math.log10(Math.abs(number)));
 }
 
+function logarithm(num, power = 1) {
+  return Math.log10(Math.pow(num, power)).toFixed(4);
+}
+
+function simpleNumbersToBarForm(integer) {
+  if (integer < 0) {
+    for (let i = 1; i <= 4; i++) {
+      if (integer + i > 0 && integer + i < 1) {
+        return -1 * (integer + 2 * i);
+      }
+    }
+  }
+  return integer;
+}
+
+function formatManualLog(num) {
+  const characteristic = getCharacteristic(num);
+  const converted = parseFloat(decimalConverter(num));
+  const mantissa = Math.log10(converted).toFixed(4).toString().split(".")[1];
+  return `${characteristic}.${mantissa}`;
+}
+
+function applyPowerToLog(logStr, power) {
+  const [c, m] = logStr.split(".");
+  console.log(c, m);
+  const mant = parseFloat(`0.${m}`) * power;
+  console.log(mant);
+  const resultChar = parseInt(c) * power + Math.floor(mant);
+  console.log(resultChar);
+  const resultMant = (mant % 1).toFixed(4).slice(2);
+  console.log(resultMant);
+  return `${resultChar}.${resultMant}`;
+}
+
 function calculate() {
-  const multiplyInput = document.querySelector("#multiply").value;
-  const divideInput = document.querySelector("#divide").value;
-  const resultDiv = document.querySelector(".result");
+  let resultDiv = document.querySelector(".result");
   document.querySelector(".resultBox").style.height = "fit-content";
 
-  let multiplyResult = 0;
-  let multiplyStrings = { step1: "", step2: "", step3: "" };
+  const multiplyTerms = document.querySelector("#multiply").value.split(",");
+  const divideTerms = document.querySelector("#divide").value.split(",");
 
-  multiplyInput.split(",").forEach((term, index) => {
-    const [num, power] = term.split("^").map(parseFloat);
-    const rawLog = Math.log10(num);
-    const characteristic = Math.floor(rawLog);
-    const mantissa = rawLog - characteristic;
-    const fullLog = rawLog.toFixed(4);
+  let multiplyResult = 0,
+    divideResult = 0;
+  let steps = { mul1: "", mul2: "", mul3: "", div1: "", div2: "", div3: "" };
 
-    // Step 1
-    multiplyStrings.step1 += `${
-      index !== 0 ? "+" : ""
-    }<p class="log">log</p><p class="round-brac">(</p><span class="number">${num}<sup>${power}</sup></span><p class="round-brac">)</p>`;
+  for (let i = 0; i < multiplyTerms.length; i++) {
+    let [num, power] = multiplyTerms[i].split("^").map(parseFloat);
+    const logStr = formatManualLog(num);
+    const finalLog = applyPowerToLog(logStr, power);
+    const prefix = i !== 0 ? "+" : "";
 
-    // Step 2: power × (char + mantissa)
-    multiplyStrings.step2 += `${
-      index !== 0 ? "+" : ""
-    }<p class="round-brac">(</p><span class="power">${power}</span>*<span class="number">${characteristic}+${mantissa.toFixed(
-      4
-    )}</span><p class="round-brac">)</p>`;
+    steps.mul1 += `${prefix}<p class="log">log</p><p class="round-brac">(</p><span class="number">${num}<sup>${power}</sup></span><p class="round-brac">)</p>`;
+    steps.mul2 += `${prefix}<p class="round-brac">(</p><span class="power">${power}</span>*<span class="number">${logStr}</span><p class="round-brac">)</p>`;
+    steps.mul3 += `${prefix}<p class="round-brac">(</p><span class="number">${finalLog}</span><p class="round-brac">)</p>`;
 
-    // Step 3: power * char + power * mantissa = final log
-    const poweredMantissa = mantissa * power;
-    const totalCharacteristic =
-      characteristic * power + Math.floor(poweredMantissa);
-    const totalMantissa = (poweredMantissa % 1).toFixed(4);
-    const totalLog = `${totalCharacteristic}.${totalMantissa.slice(2)}`;
-    multiplyStrings.step3 += `${
-      index !== 0 ? "+" : ""
-    }<p class="round-brac">(</p><span class="number">${totalLog}</span><p class="round-brac">)</p>`;
+    multiplyResult += parseFloat(logarithm(num, power));
+  }
 
-    multiplyResult += rawLog * power;
-  });
+  for (let i = 0; i < divideTerms.length; i++) {
+    let [num, power] = divideTerms[i].split("^").map(parseFloat);
+    const logStr = formatManualLog(num);
+    const finalLog = applyPowerToLog(logStr, power);
+    const prefix = i !== 0 ? "+" : "";
 
-  let divideResult = 0;
-  let divideStrings = { step1: "", step2: "", step3: "" };
+    steps.div1 += `${prefix}<p class="log">log</p><p class="round-brac">(</p><span class="number">${num}<sup>${power}</sup></span><p class="round-brac">)</p>`;
+    steps.div2 += `${prefix}<p class="round-brac">(</p><span class="power">${power}</span>*<span class="number">${logStr}</span><p class="round-brac">)</p>`;
+    steps.div3 += `${prefix}<p class="round-brac">(</p><span class="number">${finalLog}</span><p class="round-brac">)</p>`;
 
-  divideInput.split(",").forEach((term, index) => {
-    const [num, power] = term.split("^").map(parseFloat);
-    const rawLog = Math.log10(num);
-    const characteristic = Math.floor(rawLog);
-    const mantissa = rawLog - characteristic;
-    const fullLog = rawLog.toFixed(4);
-
-    // Step 1
-    divideStrings.step1 += `${
-      index !== 0 ? "+" : ""
-    }<p class="log">log</p><p class="round-brac">(</p><span class="number">${num}<sup>${power}</sup></span><p class="round-brac">)</p>`;
-
-    // Step 2
-    divideStrings.step2 += `${
-      index !== 0 ? "+" : ""
-    }<p class="round-brac">(</p><span class="power">${power}</span>*<span class="number">${characteristic}+${mantissa.toFixed(
-      4
-    )}</span><p class="round-brac">)</p>`;
-
-    // Step 3
-    const poweredMantissa = mantissa * power;
-    const totalCharacteristic =
-      characteristic * power + Math.floor(poweredMantissa);
-    const totalMantissa = (poweredMantissa % 1).toFixed(4);
-    const totalLog = `${totalCharacteristic}.${totalMantissa.slice(2)}`;
-    divideStrings.step3 += `${
-      index !== 0 ? "+" : ""
-    }<p class="round-brac">(</p><span class="number">${totalLog}</span><p class="round-brac">)</p>`;
-
-    divideResult += rawLog * power;
-  });
+    divideResult += parseFloat(logarithm(num, power));
+  }
 
   const finalResult = multiplyResult - divideResult;
-
-  const finalString = `
+  const finalHTML = `
     <span class="antilog-text">a.log</span><span class="curly-brac">{</span><p class="sqaure-brac">[</p>${
-      multiplyStrings.step1
+      steps.mul1
     }<p class="sqaure-brac">]</p> - <p class="sqaure-brac">[</p>${
-    divideStrings.step1
-  }<p class="sqaure-brac">]</p><span class="curly-brac">}</span></br>
+    steps.div1
+  }<p class="sqaure-brac">]</p><span class="curly-brac">}</span><br>
     = <span class="antilog-text">a.log</span><span class="curly-brac">{</span><p class="sqaure-brac">[</p>${
-      multiplyStrings.step2
+      steps.mul2
     }<p class="sqaure-brac">]</p> - <p class="sqaure-brac">[</p>${
-    divideStrings.step2
-  }<p class="sqaure-brac">]</p><span class="curly-brac">}</span></br>
+    steps.div2
+  }<p class="sqaure-brac">]</p><span class="curly-brac">}</span><br>
     = <span class="antilog-text">a.log</span><span class="curly-brac">{</span><p class="sqaure-brac">[</p>${
-      multiplyStrings.step3
+      steps.mul3
     }<p class="sqaure-brac">]</p> - <p class="sqaure-brac">[</p>${
-    divideStrings.step3
-  }<p class="sqaure-brac">]</p><span class="curly-brac">}</span></br>
-    = <span class="antilog-text">a.log</span><p class="round-brac">(</p><span class="number">${finalResult.toFixed(
-      4
-    )}</span><p class="round-brac">)</p></br>
+    steps.div3
+  }<p class="sqaure-brac">]</p><span class="curly-brac">}</span><br>
+    = <span class="antilog-text">a.log</span><p class="round-brac">(</p><span class="number">${simpleNumbersToBarForm(
+      finalResult
+    ).toFixed(4)}</span><p class="round-brac">)</p><br>
     = <span class="result-value">${antilog(finalResult)}</span>`;
 
-  resultDiv.innerHTML = finalString;
+  resultDiv.innerHTML = finalHTML;
 }
 
 function setBodySizeToViewport() {
