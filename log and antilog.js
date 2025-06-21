@@ -1,69 +1,33 @@
-function decimalConverter(floatNum) {
-  if (floatNum < 1) {
-    if (floatNum >= 0.1) return (floatNum * 10).toFixed(4);
-    if (floatNum >= 0.01) return (floatNum * 100).toFixed(4);
-    if (floatNum >= 0.001) return (floatNum * 1000).toFixed(4);
-    if (floatNum >= 0.0001) return (floatNum * 10000).toFixed(4);
-  } else if (floatNum >= 1) {
-    if (floatNum < 10) return floatNum.toFixed(4);
-    if (floatNum < 100) return (floatNum / 10).toFixed(4);
-    if (floatNum < 1000) return (floatNum / 100).toFixed(4);
-    if (floatNum < 10000) return (floatNum / 1000).toFixed(4);
-  }
-  return floatNum.toFixed(4);
-}
-
-function antilog(logValue) {
-  return Math.pow(10, logValue).toPrecision(4);
-}
-
-function getCharacteristic(number) {
-  return Math.floor(Math.log10(Math.abs(number)));
-}
-
-function logarithm(num, power = 1) {
-  return Math.log10(Math.pow(num, power)).toFixed(4);
-}
-
-function simpleNumbersToBarForm(integer) {
-  if (integer < 0) {
-    for (let i = 1; i <= 4; i++) {
-      if (integer + i > 0 && integer + i < 1) {
-        return -1 * (integer + 2 * i);
-      }
-    }
-  }
-  return integer;
-}
-
-function formatManualLog(num) {
-  const characteristic = getCharacteristic(num);
-  const decimalConverted = parseFloat(decimalConverter(num));
-  const mantissa = Math.log10(decimalConverted).toFixed(4).toString().split(".")[1];
-  return `${characteristic}.${mantissa}`;
-}
-
-function applyPowerToLog(logStr, power) {
-  const [c, m] = logStr.split(".");
-  const mant = parseFloat(`0.${m}`) * power;
-  const resultChar = parseInt(c) * power + Math.floor(mant);
-  const resultMant = (mant % 1).toFixed(4).slice(2);
-  return `${resultChar}.${resultMant}`;
-}
+import {
+  antilog,
+  applyPowerToLog,
+  formatManualLog,
+  logarithm,
+  simpleNumbersToBarForm,
+} from "./func/index.js";
 
 function calculate() {
   let resultDiv = document.querySelector(".result");
   document.querySelector(".resultBox").style.height = "fit-content";
 
   const multiplyTerms = document.querySelector("#multiply").value.split(",");
+  multiplyTerms[0] === "" ? (multiplyTerms[0] = "1^1") : multiplyTerms; // If user doesn't provide any terms, default to 1^1
   const divideTerms = document.querySelector("#divide").value.split(",");
+  divideTerms[0] === "" ? (divideTerms[0] = "1^1") : divideTerms; // If user doesn't provide any terms, default to 1^1
 
-  let multiplyResult = 0,
-    divideResult = 0;
+  let isMultiplyNegative, isDivideNegative;
+  isMultiplyNegative = isDivideNegative = false;
+  let multiplyResult, divideResult;
+  multiplyResult = divideResult = 0;
   let steps = { mul1: "", mul2: "", mul3: "", div1: "", div2: "", div3: "" };
 
   for (let i = 0; i < multiplyTerms.length; i++) {
     let [num, power] = multiplyTerms[i].split("^").map(parseFloat);
+    power = power || 1; // Default power to 1 if not specified
+    if (num < 1) {
+      num = Math.abs(num); // Ensure the number is positive for logarithm
+      isMultiplyNegative = !isMultiplyNegative;
+    }
     const logStr = formatManualLog(num);
     const finalLog = applyPowerToLog(logStr, power);
     const prefix = i !== 0 ? "+" : "";
@@ -71,16 +35,19 @@ function calculate() {
     steps.mul1 += `${prefix}<p class="log">log</p><p class="round-brac">(</p><span class="number">${num}<sup>${power}</sup></span><p class="round-brac">)</p>`;
     steps.mul2 += `${prefix}<p class="round-brac">(</p><span class="power">${power}</span>*<span class="number">${logStr}</span><p class="round-brac">)</p>`;
     steps.mul3 += `${prefix}<p class="round-brac">(</p><span class="number">${finalLog}</span><p class="round-brac">)</p>`;
-
     multiplyResult += parseFloat(logarithm(num, power));
   }
 
   for (let i = 0; i < divideTerms.length; i++) {
     let [num, power] = divideTerms[i].split("^").map(parseFloat);
+    power = power || 1; // Default power to 1 if not specified
+    if (num < 1) {
+      num = Math.abs(num); // Ensure the number is positive for logarithm
+      isDivideNegative = !isDivideNegative;
+    }
     const logStr = formatManualLog(num);
     const finalLog = applyPowerToLog(logStr, power);
     const prefix = i !== 0 ? "+" : "";
-
     steps.div1 += `${prefix}<p class="log">log</p><p class="round-brac">(</p><span class="number">${num}<sup>${power}</sup></span><p class="round-brac">)</p>`;
     steps.div2 += `${prefix}<p class="round-brac">(</p><span class="power">${power}</span>*<span class="number">${logStr}</span><p class="round-brac">)</p>`;
     steps.div3 += `${prefix}<p class="round-brac">(</p><span class="number">${finalLog}</span><p class="round-brac">)</p>`;
@@ -89,41 +56,43 @@ function calculate() {
   }
 
   const finalResult = multiplyResult - divideResult;
+  let FinalNegative = "";
+  if (
+    (!isMultiplyNegative && isDivideNegative) ||
+    (isMultiplyNegative && !isDivideNegative)
+  ) {
+    FinalNegative = "<span class='result-value'>-</span>";
+  }
+
   const finalHTML = `
-    <span class="antilog-text">a.log</span><span class="curly-brac">{</span><p class="sqaure-brac">[</p>${
-      steps.mul1
-    }<p class="sqaure-brac">]</p> - <p class="sqaure-brac">[</p>${
+    ${FinalNegative}<span class="antilog-text">a.log</span><span class="curly-brac">{</span><p class="sqaure-brac">[</p>${
+    steps.mul1
+  }<p class="sqaure-brac">]</p> - <p class="sqaure-brac">[</p>${
     steps.div1
   }<p class="sqaure-brac">]</p><span class="curly-brac">}</span><br>
-    = <span class="antilog-text">a.log</span><span class="curly-brac">{</span><p class="sqaure-brac">[</p>${
-      steps.mul2
-    }<p class="sqaure-brac">]</p> - <p class="sqaure-brac">[</p>${
+    = ${FinalNegative}<span class="antilog-text">a.log</span><span class="curly-brac">{</span><p class="sqaure-brac">[</p>${
+    steps.mul2
+  }<p class="sqaure-brac">]</p> - <p class="sqaure-brac">[</p>${
     steps.div2
   }<p class="sqaure-brac">]</p><span class="curly-brac">}</span><br>
-    = <span class="antilog-text">a.log</span><span class="curly-brac">{</span><p class="sqaure-brac">[</p>${
-      steps.mul3
-    }<p class="sqaure-brac">]</p> - <p class="sqaure-brac">[</p>${
+    = ${FinalNegative}<span class="antilog-text">a.log</span><span class="curly-brac">{</span><p class="sqaure-brac">[</p>${
+    steps.mul3
+  }<p class="sqaure-brac">]</p> - <p class="sqaure-brac">[</p>${
     steps.div3
   }<p class="sqaure-brac">]</p><span class="curly-brac">}</span><br>
-    = <span class="antilog-text">a.log</span><p class="round-brac">(</p><span class="number">${simpleNumbersToBarForm(
-      finalResult
-    ).toFixed(4)}</span><p class="round-brac">)</p><br>
-    = <span class="result-value">${antilog(finalResult)}</span>`;
+    = ${FinalNegative}<span class="antilog-text">a.log</span><p class="round-brac">(</p><span class="number">${simpleNumbersToBarForm(
+    finalResult
+  )}</span><p class="round-brac">)</p><br>
+    = ${FinalNegative}<span class="result-value">${antilog(
+    finalResult
+  )}</span>`;
 
   resultDiv.innerHTML = finalHTML;
+  // Render the MathJax
+  MathJax.typeset();
 }
 
-function setBodySizeToViewport() {
-  const windowHeight =
-    window.innerHeight ||
-    document.documentElement.clientHeight ||
-    document.body.clientHeight;
-  const windowWidth =
-    window.innerWidth ||
-    document.documentElement.clientWidth ||
-    document.body.clientWidth;
-  document.body.style.height = `${windowHeight}px`;
-  document.body.style.width = `${windowWidth}px`;
-}
-
-setBodySizeToViewport();
+const calculateButton = document.getElementById("calculate-btn");
+calculateButton.addEventListener("click", () => {
+  calculate();
+});

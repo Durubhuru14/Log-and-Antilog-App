@@ -1,43 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Log and antilog calculator</title>
-  <link rel="stylesheet" href="log and antilog.css">
-
-<body>
-  <header>
-    <h1>Logarithmic App</h1>
-    <h3>By Durubhuru</h3>
-  </header>
-  <main>
-    <div class="inputBox">
-      <input id="multiply" type="text" required="required">
-      <span>Numerator numbers</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Log and antilog calculator</title>
+    <link rel="stylesheet" href="log and antilog.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Logarithmic App</h1>
+      <h3>By Durubhuru</h3>
+    </header>
+    <main>
+      <div class="inputBox">
+        <input id="multiply" type="text" required="required" />
+        <span>Numerator numbers</span>
+      </div>
+      <div class="inputBox">
+        <input id="divide" type="text" required="required" />
+        <span>Denominator numbers</span>
+      </div>
+      <button id="calculate-btn">Calculate</button>
+    </main>
+    <div class="resultBox">
+      <h3 id="result-header">
+        <u><b>Result:</b></u>
+      </h3>
+      <div class="result"></div>
     </div>
-    <div class="inputBox">
-      <input id="divide" type="text" required="required">
-      <span>Denominator numbers</span>
-    </div>
-    <button onclick="calculate()">Calculate</button>
-  </main>
-  <div class="resultBox">
-    <h3 id="result-header"><u><b>Result:</b></u></h3>
-    <div class="result"></div>
-  </div>
-  <footer>
-    <p>Copyright &copy; <span id="currentYear"></span> <img src="logo.png" alt="logo"> All Rights Reserved.</p>
-  </footer>
-</body>
-<script type="text/javascript" charset="utf-8" src="log and antilog.js">
-</script>
-<script>
-  const currentYear = new Date().getFullYear();
+    <footer>
+      <p>
+        Copyright &copy; <span id="currentYear"></span>
+        <img src="logo.png" alt="logo" /> All Rights Reserved.
+      </p>
+    </footer>
+  </body>
+  <script type="module" charset="utf-8" src="log and antilog.js"></script>
+  <script>
+    const currentYear = new Date().getFullYear();
+    // Display the current year
+    document.getElementById("currentYear").innerHTML = currentYear;
+  </script>
+  <!-- MathJax Snippet -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [
+          ["$", "$"],
+          ["\\(", "\\)"],
+        ],
+      },
+      chtml: {
+        matchFontHeight: false, // optional
+      },
+      options: {
+        renderActions: {
+          addMenu: [], // disables right-click MathJax context menu
+        },
+      },
+    };
+  </script>
 
-// Display the current year
-document.getElementById('currentYear').innerHTML = currentYear;
-</script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </html>
