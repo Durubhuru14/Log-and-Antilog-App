@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Log and antilog calculator</title>
-    <link rel="stylesheet" href="log and antilog.css" />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header>
@@ -36,31 +36,10 @@
       </p>
     </footer>
   </body>
-  <script type="module" charset="utf-8" src="log and antilog.js"></script>
+  <script type="module" charset="utf-8" src="script.js"></script>
   <script>
     const currentYear = new Date().getFullYear();
     // Display the current year
     document.getElementById("currentYear").innerHTML = currentYear;
   </script>
-  <!-- MathJax Snippet -->
-  <script>
-    MathJax = {
-      tex: {
-        inlineMath: [
-          ["$", "$"],
-          ["\\(", "\\)"],
-        ],
-      },
-      chtml: {
-        matchFontHeight: false, // optional
-      },
-      options: {
-        renderActions: {
-          addMenu: [], // disables right-click MathJax context menu
-        },
-      },
-    };
-  </script>
-
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </html>

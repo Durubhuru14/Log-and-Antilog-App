@@ -145,22 +145,14 @@ footer img {
 }
 .number {
   color: #378dc8 !important;
-  font-family: "Lato", sans-serif;
-  padding: 0 2px;
-}
-
-mjx-container {
-  padding: 0 2px;
-}
-
-mjx-container * {
-  font-family: "Lato", sans-serif;
+  font-family: "Roboto Mono", monospace;
+  margin: 0 2px;
 }
 
 .power {
-  font-family: "Lato", sans-serif;
+  font-family: "Roboto Mono", monospace;
   color: #ff9800;
-  padding: 0 2px;
+  margin: 0 2px;
 }
 
 .result-value {

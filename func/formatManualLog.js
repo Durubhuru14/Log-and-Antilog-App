@@ -9,7 +9,7 @@ function formatManualLog(num) {
     .toString()
     .split(".")[1];
   if (characteristic < 0) {
-    return `$\\overline{${Math.abs(characteristic)}}.${mantissa}$`;
+    return `\u0305${Math.abs(characteristic)}.${mantissa}`;
   }
   return `${characteristic}.${mantissa}`;
 }
