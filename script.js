@@ -23,6 +23,9 @@ function calculate() {
     trigFun: divTrigFun,
   } = renderDivideSteps(divideTerms);
 
+  const mulResultBarForm = simpleNumbersToBarForm(mulResult);
+  const divResultBarForm = simpleNumbersToBarForm(divResult);
+
   let finalResult;
   if (mulResult === 0 && mulTrigFun) {
     finalResult = 0;
@@ -65,8 +68,8 @@ function calculate() {
     divSteps.div3
   )}<span class="curly-brac">}</span><br>
   = ${FinalNegative}<span class="antilog-text">a.log</span><span class="curly-brac">{</span>${formatStep(
-    `<span class='number'>${mulResult.toFixed(4)}</span>`,
-    `<span class='number'>${divResult.toFixed(4)}</span>`,
+    `<span class='number'>${mulResultBarForm}</span>`,
+    `<span class='number'>${divResultBarForm}</span>`,
   )}<span class="curly-brac">}</span><br>
   = ${FinalNegative}<span class="antilog-text">a.log</span><p class="round-brac">(</p><span class="number">${simpleNumbersToBarForm(
     finalResult.toFixed(4)
