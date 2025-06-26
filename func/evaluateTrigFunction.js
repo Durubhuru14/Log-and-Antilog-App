@@ -42,14 +42,13 @@ export default function evaluateTrigFunction(input) {
   // Converts degrees to radians if necessary
   if (valueRaw.includes("deg")) {
     fn = `${fn}(${formatAsSymbolicPi(numeric.toFixed(4))} rad)`;
-    console.log(result);
   } else {
     fn = `${fn}(${symbolic})`;
   }
 
   return {
     fn: fn,
-    result,
+    result: parseFloat(result.toFixed(4)),
     inverseOutput,
   };
 }

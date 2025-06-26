@@ -54,6 +54,8 @@ function calculate() {
   );
 
   const formatStep = (mul, div) => {
+    if (!mul && !div) return "";
+
     const mulHTML = `<p class="sqaure-brac">[</p>${mul}<p class="sqaure-brac">]</p>`;
     const divHTML = div
       ? ` - <p class="sqaure-brac">[</p>${div}<p class="sqaure-brac">]</p>`
@@ -66,19 +68,43 @@ function calculate() {
     mulSteps.mul1,
     divSteps.div1
   )}<span class="curly-brac">}</span><br>
-  = ${FinalNegative}<span class="antilog-text">a.log</span><span class="curly-brac">{</span>${formatStep(
-    mulSteps.mul2,
-    divSteps.div2
-  )}<span class="curly-brac">}</span><br>
+
+  ${
+    mulTrigFun || divTrigFun
+      ? `= ${FinalNegative}<span class="antilog-text">a.log</span><span class="curly-brac">{</span>${formatStep(
+          mulSteps.mul2,
+          divSteps.div2
+        )}<span class="curly-brac">}</span><br>`
+      : ""
+  }
+
   = ${FinalNegative}<span class="antilog-text">a.log</span><span class="curly-brac">{</span>${formatStep(
     mulSteps.mul3,
     divSteps.div3
   )}<span class="curly-brac">}</span><br>
-  = ${FinalNegative}<span class="antilog-text">a.log</span><span class="curly-brac">{</span>${formatStep(
-    `<span class='number'>${mulResultBarForm}</span>`,
-    `<span class='number'>${divResultBarForm}</span>`
-  )}<span class="curly-brac">}</span><br>
+
+  ${
+    mulSteps.mul4 && divSteps.div4
+      ? `
+    = ${FinalNegative}<span class="antilog-text">a.log</span><span class="curly-brac">{</span>${formatStep(
+          mulSteps.mul4,
+          divSteps.div4
+        )}<span class="curly-brac">}</span><br>
+  `
+      : ""
+  }
+
+  ${
+    divResult === 0
+      ? ""
+      : `= ${FinalNegative}<span class="antilog-text">a.log</span><span class="curly-brac">{</span>${formatStep(
+          `<span class='number'>${mulResultBarForm}</span>`,
+          `<span class='number'>${divResultBarForm}</span>`
+        )}<span class="curly-brac">}</span><br>`
+  }
+
   = ${FinalNegative}<span class="antilog-text">a.log</span><p class="round-brac">(</p><span class="number">${finalResultBarForm}</span><p class="round-brac">)</p><br>
+
   = ${FinalNegative}<span class="result-value">${antilog(finalResult)}</span>`;
 
   resultDiv.innerHTML = finalHTML;
