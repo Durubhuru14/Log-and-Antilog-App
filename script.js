@@ -43,6 +43,12 @@ function calculate() {
     FinalNegative = "<span class='result-value'>-</span>";
   }
 
+  // Check if both the array has only 1 term if yes then skip 4th step
+  if (divideTerms.length === 1 && multiplyTerms.length === 1) {
+    divSteps.div4 = "";
+    mulSteps.mul4 = "";
+  }
+
   const mulResultBarForm = simpleNumbersToBarForm(
     parseFloat(mulResult.toFixed(4))
   );

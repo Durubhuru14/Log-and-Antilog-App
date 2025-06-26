@@ -49,6 +49,5 @@ export default function renderMultiplySteps(multiplyTerms) {
     result += parseFloat(logarithm(num, power));
   }
 
-  if(multiplyTerms.length === 1) steps.mul4 = ""
   return { steps, result, isNegative, trigFun };
 }

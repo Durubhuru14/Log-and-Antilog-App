@@ -53,6 +53,5 @@ export default function renderDivideSteps(divideTerms) {
     result += parseFloat(logarithm(num, power));
   }
 
-  if (divideTerms.length === 1) steps.div4 = "";
   return { steps, result, isNegative, trigFun };
 }
