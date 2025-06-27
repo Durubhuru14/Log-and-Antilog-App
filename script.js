@@ -5,6 +5,9 @@ function calculate() {
   let resultDiv = document.querySelector(".result");
   document.querySelector(".resultBox").style.height = "fit-content";
 
+  console.log(document.querySelector("#multiply").value)
+    console.log(document.querySelector("#divide").value)
+
   const multiplyTerms = document.querySelector("#multiply").value.split(",");
   const divideTerms = document.querySelector("#divide").value.split(",");
   if (multiplyTerms[0] === "") multiplyTerms[0] = "1^1";
@@ -90,7 +93,7 @@ function calculate() {
   )}<span class="curly-brac">}</span><br>
 
   ${
-    mulSteps.mul4 && divSteps.div4
+    mulSteps.mul4 || divSteps.div4
       ? `
     = ${FinalNegative}<span class="antilog-text">a.log</span><span class="curly-brac">{</span>${formatStep(
           mulSteps.mul4,
