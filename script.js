@@ -4,10 +4,6 @@ import { renderMultiplySteps, renderDivideSteps } from "./template/index.js";
 function calculate() {
   let resultDiv = document.querySelector(".result");
   document.querySelector(".resultBox").style.height = "fit-content";
-
-  console.log(document.querySelector("#multiply").value)
-    console.log(document.querySelector("#divide").value)
-
   const multiplyTerms = document.querySelector("#multiply").value.split(",");
   const divideTerms = document.querySelector("#divide").value.split(",");
   if (multiplyTerms[0] === "") multiplyTerms[0] = "1^1";
